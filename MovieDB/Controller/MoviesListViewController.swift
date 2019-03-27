@@ -24,6 +24,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         
         view.backgroundColor = .white
         setupViews()
+        present(MovieDetailsViewController(), animated: true, completion: nil)
     }
 
     func setupViews() {
