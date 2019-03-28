@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         let moviesListVC = MoviesListViewController()
+        UINavigationBar.appearance().barTintColor = UIColor(red: 51/255, green: 53/255, blue: 68/255, alpha: 1.0)
+        UINavigationBar.appearance().isTranslucent = false
         window?.rootViewController = UINavigationController(rootViewController: moviesListVC)
         
         return true

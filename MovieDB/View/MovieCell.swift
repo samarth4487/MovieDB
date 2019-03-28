@@ -13,19 +13,28 @@ class MovieCell: UITableViewCell {
     let posterImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleToFill
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 5
         return view
     }()
     
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = .boldSystemFont(ofSize: 18)
+        label.numberOfLines = 2
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     let releaseDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .gray
+        label.font = .systemFont(ofSize: 14)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -34,6 +43,10 @@ class MovieCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 5
+        button.setTitle("Book", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        button.backgroundColor = UIColor(red: 51/255, green: 53/255, blue: 68/255, alpha: 1.0)
         return button
     }()
 
@@ -49,31 +62,27 @@ class MovieCell: UITableViewCell {
     func setupViews() {
         
         addSubview(posterImageView)
-        posterImageView.backgroundColor = .black
         posterImageView.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         posterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
-        posterImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        posterImageView.heightAnchor.constraint(equalToConstant: 140).isActive = true
         posterImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         addSubview(titleLabel)
-        titleLabel.backgroundColor = .black
         titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 10).isActive = true
         titleLabel.topAnchor.constraint(equalTo: posterImageView.topAnchor, constant: 5).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
-        titleLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
         addSubview(releaseDateLabel)
-        releaseDateLabel.backgroundColor = .black
         releaseDateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
         releaseDateLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
         releaseDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
         releaseDateLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true
         
         addSubview(bookButton)
-        bookButton.backgroundColor = .black
-        bookButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 60).isActive = true
+        bookButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
+        bookButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
         bookButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        bookButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         bookButton.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -5).isActive = true
     }
     

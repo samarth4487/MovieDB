@@ -77,19 +77,16 @@ class MovieDetailsViewController: UITableViewController {
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_REVIEW_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieReviewCell
             cell.setupViews()
-            cell.backgroundColor = .green
             return cell
             
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_CREDIT_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieCreditCell
             cell.setupViews()
-            cell.backgroundColor = .red
             return cell
             
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.SIMILAR_MOVIE_CELL_REUSE_IDENTIFIER, for: indexPath) as! SimilarMovieCell
             cell.setupViews()
-            cell.backgroundColor = .green
             return cell
         }
     }
