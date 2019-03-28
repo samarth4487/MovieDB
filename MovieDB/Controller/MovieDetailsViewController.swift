@@ -15,6 +15,8 @@ class MovieDetailsViewController: UITableViewController {
     var movieId = -1
     var movieSynopsis = ""
     var movieReviews = [ReviewsDetails]()
+    var movieCredits = [CreditDetails]()
+    var similarMovies = [SimilarMovieDetails]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +28,8 @@ class MovieDetailsViewController: UITableViewController {
         registerCells()
         downloadSynopsisForMovie()
         downloadReviewsForMovie()
+        downloadCreditsForMovie()
+        downloadSimilarMoviesForMovie()
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -64,6 +68,26 @@ class MovieDetailsViewController: UITableViewController {
         }
     }
     
+    func downloadCreditsForMovie() {
+        
+        Credit.getCredits(withId: movieId) { (credit, error, errorString) in
+            guard let credit = credit else { return }
+            guard let results = credit.results else { return }
+            self.movieCredits = results
+            self.tableView.reloadRows(at: [IndexPath(row: 3, section: 0)], with: .none)
+        }
+    }
+    
+    func downloadSimilarMoviesForMovie() {
+        
+        SimilarMovie.getSimilarMovies(withPage: 1, withId: movieId) { (similarMovie, error, errorString) in
+            guard let similarMovie = similarMovie else { return }
+            guard let results = similarMovie.results else { return }
+            self.similarMovies = results
+            self.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .none)
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
@@ -75,14 +99,11 @@ class MovieDetailsViewController: UITableViewController {
         case 0:
             return view.frame.width * 1.3
             
-        case 1...2:
+        case 1...3:
             return UITableView.automaticDimension
             
-        case 3:
-            return 200
-            
         default:
-            return 200
+            return UITableView.automaticDimension
         }
     }
     
@@ -115,12 +136,18 @@ class MovieDetailsViewController: UITableViewController {
             
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_CREDIT_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieCreditCell
-            cell.setupViews()
+            if movieCredits.count > 0 {
+                cell.creditDetails = movieCredits
+                cell.setupViews()
+            }
             return cell
             
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.SIMILAR_MOVIE_CELL_REUSE_IDENTIFIER, for: indexPath) as! SimilarMovieCell
-            cell.setupViews()
+            if similarMovies.count > 0 {
+                cell.movieDetails = similarMovies
+                cell.setupViews()
+            }
             return cell
         }
     }

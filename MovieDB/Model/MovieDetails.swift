@@ -112,17 +112,15 @@ struct Credit: Decodable {
 
 struct CreditDetails: Decodable {
     
-    let character: String
     let name: String
     let profile_path: String
     
     private enum CodingKeys: String, CodingKey {
-        case character = "character", name = "name", profile_path = "profile_path"
+        case name = "name", profile_path = "profile_path"
     }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        character = try values.decodeIfPresent(String.self, forKey: .character) ?? ""
         name = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
         profile_path = try values.decodeIfPresent(String.self, forKey: .profile_path) ?? ""
     }
