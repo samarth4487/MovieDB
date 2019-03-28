@@ -18,6 +18,8 @@ class MovieDetailsViewController: UITableViewController {
     var movieCredits = [CreditDetails]()
     var similarMovies = [SimilarMovieDetails]()
     
+    let progressView = ProgressBar(text: "Loading....")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -135,8 +137,12 @@ class MovieDetailsViewController: UITableViewController {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             cell.posterImageView.image = #imageLiteral(resourceName: "thumbnail")
             
+            view.addSubview(progressView)
+            
             APIClient.downloadImage(moviePosterPath, original: true) { (downloadedImage) in
                 DispatchQueue.main.async {
+                    
+                    self.progressView.hide()
                     if let visibleCell = tableView.cellForRow(at: indexPath) as? MovieCoverCell {
                         visibleCell.posterImageView.image = downloadedImage
                     }

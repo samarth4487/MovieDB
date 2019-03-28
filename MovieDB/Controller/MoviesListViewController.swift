@@ -22,6 +22,8 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         return view
     }()
     
+    let progressView = ProgressBar(text: "Loading....")
+    
     var movies = [Result]()
     var pageNumber = 1
     
@@ -47,8 +49,12 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
          This method downloads first page of the movies.
         */
         
+        view.addSubview(progressView)
+        
         Movie.getMovies(withPage: 1) {
             (movie, error, errorMessage) in
+            self.progressView.hide()
+            
             if !error {
                 guard let movie = movie else { return }
                 guard let results = movie.results else { return }
@@ -83,6 +89,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         
         Movie.getMovies(withPage: pageNumber) {
             (movie, error, errorMessage) in
+            
             if !error {
                 guard let movie = movie else { return }
                 guard let results = movie.results else { return }
