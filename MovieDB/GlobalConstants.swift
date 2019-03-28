@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct GlobalConstants {
     
@@ -16,8 +17,8 @@ struct GlobalConstants {
     static let API_RESPONSE_CODE_BAD_REQUEST = 400...410
     static let API_KEY = "d1d3e6e701db9ef2f11181db40023b93"
     static let BASE_URL = "https://api.themoviedb.org/3/movie"
-    static let SMALL_IMAGE_PREFIX = "https://image.tmdb.org/t/p/w500/"
-    static let ORIGINAL_IMAGE_PREFIX = "https://image.tmdb.org/t/p/original/"
+    static let SMALL_IMAGE_PREFIX = "https://image.tmdb.org/t/p/w500"
+    static let ORIGINAL_IMAGE_PREFIX = "https://image.tmdb.org/t/p/original"
     static let SOMETHING_WENT_WRONG_MESSAGE = "Something went wrong"
     static let BAD_REQUEST_MESSAGE = "Bad request"
     static let NO_INTERNET_MESSAGE = "Please connect to the internet"

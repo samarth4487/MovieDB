@@ -13,13 +13,12 @@ class MovieCoverCell: UITableViewCell {
     let posterImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleToFill
         return view
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,7 +28,6 @@ class MovieCoverCell: UITableViewCell {
     func setupViews() {
         
         addSubview(posterImageView)
-        posterImageView.backgroundColor = .black
         posterImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         posterImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         posterImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true

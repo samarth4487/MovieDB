@@ -50,7 +50,7 @@ class APIClient {
     
     static func downloadImage(_ url: String, original: Bool, andCallback callback: @escaping (UIImage) -> Void) {
         
-        Alamofire.request(original ? GlobalConstants.ORIGINAL_IMAGE_PREFIX : GlobalConstants.SMALL_IMAGE_PREFIX + url)
+        Alamofire.request((original ? GlobalConstants.ORIGINAL_IMAGE_PREFIX : GlobalConstants.SMALL_IMAGE_PREFIX) + url)
             .response() {
                 dataResponse in
                 
