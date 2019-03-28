@@ -84,9 +84,7 @@ class MovieCreditCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         
         APIClient.downloadImage(credit.profile_path, original: false) { (downloadedImage) in
             DispatchQueue.main.async {
-                if let visibleCell = collectionView.cellForItem(at: indexPath) as? CreditCollectionCell {
-                    visibleCell.characterImageView.image = downloadedImage
-                }
+                cell.characterImageView.image = downloadedImage
             }
         }
         

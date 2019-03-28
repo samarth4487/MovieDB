@@ -84,9 +84,7 @@ class SimilarMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         
         APIClient.downloadImage(movie.posterPath, original: false) { (downloadedImage) in
             DispatchQueue.main.async {
-                if let visibleCell = collectionView.cellForItem(at: indexPath) as? SimilarCollectionCell {
-                    visibleCell.movieImageView.image = downloadedImage
-                }
+                cell.movieImageView.image = downloadedImage
             }
         }
         

@@ -54,6 +54,8 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
                 guard let results = movie.results else { return }
                 self.movies = results
                 self.setupViews()
+            } else {
+                AlertView.showAlert(inVC: self, withMessage: errorMessage)
             }
         }
     }
@@ -86,6 +88,8 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
                 guard let results = movie.results else { return }
                 self.movies.append(contentsOf: results)
                 self.moviesTableView.reloadData()
+            } else {
+                AlertView.showAlert(inVC: self, withMessage: errorMessage)
             }
         }
     }

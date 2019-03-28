@@ -52,39 +52,55 @@ class MovieDetailsViewController: UITableViewController {
     func downloadSynopsisForMovie() {
         
         Synopsis.getSynopsis(withId: movieId) { (synopsis, error, errorString) in
-            guard let synopsis = synopsis else { return }
-            self.movieSynopsis = synopsis.synopsis
-            self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
+            if !error {
+                guard let synopsis = synopsis else { return }
+                self.movieSynopsis = synopsis.synopsis
+                self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
+            } else {
+                AlertView.showAlert(inVC: self, withMessage: errorString)
+            }
         }
     }
     
     func downloadReviewsForMovie() {
         
         Review.getReviews(withPage: 1, withId: movieId) { (review, error, errorString) in
-            guard let review = review else { return }
-            guard let results = review.results else { return }
-            self.movieReviews = results
-            self.tableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .none)
+            if !error {
+                guard let review = review else { return }
+                guard let results = review.results else { return }
+                self.movieReviews = results
+                self.tableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .none)
+            } else {
+                AlertView.showAlert(inVC: self, withMessage: errorString)
+            }
         }
     }
     
     func downloadCreditsForMovie() {
         
         Credit.getCredits(withId: movieId) { (credit, error, errorString) in
-            guard let credit = credit else { return }
-            guard let results = credit.results else { return }
-            self.movieCredits = results
-            self.tableView.reloadRows(at: [IndexPath(row: 3, section: 0)], with: .none)
+            if !error {
+                guard let credit = credit else { return }
+                guard let results = credit.results else { return }
+                self.movieCredits = results
+                self.tableView.reloadRows(at: [IndexPath(row: 3, section: 0)], with: .none)
+            } else {
+                AlertView.showAlert(inVC: self, withMessage: errorString)
+            }
         }
     }
     
     func downloadSimilarMoviesForMovie() {
         
         SimilarMovie.getSimilarMovies(withPage: 1, withId: movieId) { (similarMovie, error, errorString) in
-            guard let similarMovie = similarMovie else { return }
-            guard let results = similarMovie.results else { return }
-            self.similarMovies = results
-            self.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .none)
+            if !error {
+                guard let similarMovie = similarMovie else { return }
+                guard let results = similarMovie.results else { return }
+                self.similarMovies = results
+                self.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .none)
+            } else {
+                AlertView.showAlert(inVC: self, withMessage: errorString)
+            }
         }
     }
     
