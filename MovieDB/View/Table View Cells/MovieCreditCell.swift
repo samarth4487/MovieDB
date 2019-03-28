@@ -81,7 +81,9 @@ class MovieCreditCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         
         let credit = creditDetails[indexPath.item]
         APIClient.downloadImage(credit.profile_path, original: false) { (downloadedImage) in
-            cell.characterImageView.image = downloadedImage
+            DispatchQueue.main.async {
+                cell.characterImageView.image = downloadedImage
+            }
         }
         cell.nameLabel.text = credit.name
         

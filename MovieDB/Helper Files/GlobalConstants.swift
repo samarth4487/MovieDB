@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+let _IMAGE_CACHE = NSCache<NSString, UIImage>()
+
 struct GlobalConstants {
     
     static let API_RESPONSE_CODE_SUCCESS = 200...210

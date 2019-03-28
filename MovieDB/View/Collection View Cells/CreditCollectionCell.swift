@@ -42,6 +42,7 @@ class CreditCollectionCell: UICollectionViewCell {
     func setupViews() {
         
         addSubview(characterImageView)
+        characterImageView.image = nil
         characterImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         characterImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         characterImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true

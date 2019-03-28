@@ -81,7 +81,9 @@ class SimilarMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         
         let movie = movieDetails[indexPath.item]
         APIClient.downloadImage(movie.posterPath, original: false) { (downloadedImage) in
-            cell.movieImageView.image = downloadedImage
+            DispatchQueue.main.async {
+                cell.movieImageView.image = downloadedImage
+            }
         }
         cell.movieLabel.text = movie.title
         

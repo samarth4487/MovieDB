@@ -116,7 +116,9 @@ class MovieDetailsViewController: UITableViewController {
             cell.setupViews()
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             APIClient.downloadImage(moviePosterPath, original: true) { (downloadedImage) in
-                cell.posterImageView.image = downloadedImage
+                DispatchQueue.main.async {
+                    cell.posterImageView.image = downloadedImage
+                }
             }
             return cell
             

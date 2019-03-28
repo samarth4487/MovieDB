@@ -62,6 +62,7 @@ class MovieCell: UITableViewCell {
     func setupViews() {
         
         addSubview(posterImageView)
+        posterImageView.image = nil
         posterImageView.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         posterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
         posterImageView.heightAnchor.constraint(equalToConstant: 140).isActive = true

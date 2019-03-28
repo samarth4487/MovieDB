@@ -42,6 +42,7 @@ class SimilarCollectionCell: UICollectionViewCell {
     func setupViews() {
         
         addSubview(movieImageView)
+        movieImageView.image = nil
         movieImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         movieImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         movieImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true

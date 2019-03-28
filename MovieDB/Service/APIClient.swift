@@ -50,17 +50,23 @@ class APIClient {
     
     static func downloadImage(_ url: String, original: Bool, andCallback callback: @escaping (UIImage) -> Void) {
         
-        Alamofire.request((original ? GlobalConstants.ORIGINAL_IMAGE_PREFIX : GlobalConstants.SMALL_IMAGE_PREFIX) + url)
-            .response() {
-                dataResponse in
-                
-                let data = dataResponse.data
-                
-                if let imageData = data {
-                    if let downloadedImage = UIImage(data: imageData) {
-                        callback(downloadedImage)
+        if let cachedImage = _IMAGE_CACHE.object(forKey: url as NSString) {
+            callback(cachedImage)
+        } else {
+            
+            Alamofire.request((original ? GlobalConstants.ORIGINAL_IMAGE_PREFIX : GlobalConstants.SMALL_IMAGE_PREFIX) + url)
+                .response() {
+                    dataResponse in
+                    
+                    let data = dataResponse.data
+                    
+                    if let imageData = data {
+                        if let downloadedImage = UIImage(data: imageData) {
+                            _IMAGE_CACHE.setObject(downloadedImage, forKey: url as NSString)
+                            callback(downloadedImage)
+                        }
                     }
-                }
+            }
         }
     }
 }
