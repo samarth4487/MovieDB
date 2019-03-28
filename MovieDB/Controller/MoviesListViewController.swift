@@ -37,10 +37,6 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         downloadMovieList()
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
     
     //MARK:- Custom Methods
     
@@ -123,12 +119,12 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let movie = movies[indexPath.row]
-        
+
         let movieDetailsVC = MovieDetailsViewController()
         movieDetailsVC.movieTitle = movie.title
         movieDetailsVC.moviePosterPath = movie.posterPath
         movieDetailsVC.movieId = movie.id
-        
+
         present(movieDetailsVC, animated: true, completion: nil)
     }
     
