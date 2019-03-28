@@ -80,11 +80,16 @@ class MovieCreditCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         cell.setupViews()
         
         let credit = creditDetails[indexPath.item]
+        cell.characterImageView.image = #imageLiteral(resourceName: "thumbnail")
+        
         APIClient.downloadImage(credit.profile_path, original: false) { (downloadedImage) in
             DispatchQueue.main.async {
-                cell.characterImageView.image = downloadedImage
+                if let visibleCell = collectionView.cellForItem(at: indexPath) as? CreditCollectionCell {
+                    visibleCell.characterImageView.image = downloadedImage
+                }
             }
         }
+        
         cell.nameLabel.text = credit.name
         
         return cell

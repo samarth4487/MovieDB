@@ -28,7 +28,7 @@ class MovieCoverCell: UITableViewCell {
     func setupViews() {
         
         addSubview(posterImageView)
-        posterImageView.image = nil
+        posterImageView.image = #imageLiteral(resourceName: "thumbnail")
         posterImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         posterImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         posterImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true

@@ -131,9 +131,13 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         let movie = movies[indexPath.row]
         
         cell.titleLabel.text = movie.title
+        cell.posterImageView.image = #imageLiteral(resourceName: "thumbnail")
+        
         APIClient.downloadImage(movie.posterPath, original: false, andCallback: { (downloadedImage) in
             DispatchQueue.main.async {
-                cell.posterImageView.image = downloadedImage
+                if let visibleCell = tableView.cellForRow(at: indexPath) as? MovieCell {
+                    visibleCell.posterImageView.image = downloadedImage
+                }
             }
         })
         cell.releaseDateLabel.text = "Released On " + Movie.modifyDateString(withString: movie.releaseDate)

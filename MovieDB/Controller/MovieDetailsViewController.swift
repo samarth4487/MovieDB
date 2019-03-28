@@ -113,43 +113,58 @@ class MovieDetailsViewController: UITableViewController {
             
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_COVER_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieCoverCell
+            
             cell.setupViews()
+            
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            cell.posterImageView.image = #imageLiteral(resourceName: "thumbnail")
+            
             APIClient.downloadImage(moviePosterPath, original: true) { (downloadedImage) in
                 DispatchQueue.main.async {
-                    cell.posterImageView.image = downloadedImage
+                    if let visibleCell = tableView.cellForRow(at: indexPath) as? MovieCoverCell {
+                        visibleCell.posterImageView.image = downloadedImage
+                    }
                 }
             }
+            
             return cell
             
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_SYNOPSIS_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieSynopsisCell
+            
             cell.setupViews()
             cell.synopsisLabel.text = movieSynopsis
+            
             return cell
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_REVIEW_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieReviewCell
+            
             if movieReviews.count > 0 {
                 cell.reviewDetails = movieReviews
                 cell.setupViews()
             }
+            
             return cell
             
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_CREDIT_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieCreditCell
+            
             if movieCredits.count > 0 {
                 cell.creditDetails = movieCredits
                 cell.setupViews()
             }
+            
             return cell
             
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.SIMILAR_MOVIE_CELL_REUSE_IDENTIFIER, for: indexPath) as! SimilarMovieCell
+            
             if similarMovies.count > 0 {
                 cell.movieDetails = similarMovies
                 cell.setupViews()
             }
+            
             return cell
         }
     }

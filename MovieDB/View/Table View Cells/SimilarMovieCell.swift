@@ -80,11 +80,16 @@ class SimilarMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         cell.setupViews()
         
         let movie = movieDetails[indexPath.item]
+        cell.movieImageView.image = #imageLiteral(resourceName: "thumbnail")
+        
         APIClient.downloadImage(movie.posterPath, original: false) { (downloadedImage) in
             DispatchQueue.main.async {
-                cell.movieImageView.image = downloadedImage
+                if let visibleCell = collectionView.cellForItem(at: indexPath) as? SimilarCollectionCell {
+                    visibleCell.movieImageView.image = downloadedImage
+                }
             }
         }
+        
         cell.movieLabel.text = movie.title
         
         return cell
