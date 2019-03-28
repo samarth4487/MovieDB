@@ -10,7 +10,6 @@ import UIKit
 
 class MovieDetailsViewController: UITableViewController {
     
-    var movieTitle = ""
     var moviePosterPath = ""
     var movieId = -1
     var movieSynopsis = ""

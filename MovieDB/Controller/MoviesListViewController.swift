@@ -121,7 +121,6 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         let movie = movies[indexPath.row]
 
         let movieDetailsVC = MovieDetailsViewController()
-        movieDetailsVC.movieTitle = movie.title
         movieDetailsVC.moviePosterPath = movie.posterPath
         movieDetailsVC.movieId = movie.id
 
