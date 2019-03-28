@@ -51,6 +51,8 @@ class MovieReviewCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         reviewCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         reviewCollectionView.topAnchor.constraint(equalTo: headingLabel.bottomAnchor, constant: 10).isActive = true
         reviewCollectionView.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        
+        regsiterCells()
     }
     
     func regsiterCells() {

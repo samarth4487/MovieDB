@@ -109,15 +109,32 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         return 180
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let movie = movies[indexPath.row]
+        
+        let movieDetailsVC = MovieDetailsViewController()
+        movieDetailsVC.movieTitle = movie.title
+        movieDetailsVC.moviePosterPath = movie.posterPath
+        movieDetailsVC.movieId = movie.id
+        
+        present(movieDetailsVC, animated: true, completion: nil)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieCell
+        
         cell.setupViews()
-        cell.titleLabel.text = movies[indexPath.row].title
-        APIClient.downloadImage(movies[indexPath.row].posterPath, original: false, andCallback: { (downloadedImage) in
+        cell.selectionStyle = .none
+        
+        let movie = movies[indexPath.row]
+        
+        cell.titleLabel.text = movie.title
+        APIClient.downloadImage(movie.posterPath, original: false, andCallback: { (downloadedImage) in
             cell.posterImageView.image = downloadedImage
         })
-        cell.releaseDateLabel.text = "Released On " + Movie.modifyDateString(withString: movies[indexPath.row].releaseDate)
+        cell.releaseDateLabel.text = "Released On " + Movie.modifyDateString(withString: movie.releaseDate)
         
         if indexPath.row == movies.count - 1 {
             loadMoreData()

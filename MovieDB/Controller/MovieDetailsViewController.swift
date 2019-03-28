@@ -10,11 +10,17 @@ import UIKit
 
 class MovieDetailsViewController: UITableViewController {
     
+    var movieTitle = ""
+    var moviePosterPath = ""
+    var movieId = -1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.contentInset = UIEdgeInsets(top: -UIApplication.shared.keyWindow!.safeAreaInsets.top, left: 0, bottom: 0, right: 0)
         tableView.backgroundColor = .white
+        tableView.allowsSelection = false
+        tableView.bounces = false
         registerCells()
     }
     
