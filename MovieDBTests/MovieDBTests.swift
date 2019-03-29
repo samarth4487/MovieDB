@@ -11,24 +11,89 @@ import XCTest
 
 class MovieDBTests: XCTestCase {
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testGetMoviesEndpoint() {
+        
+        var movieList : Movie?
+        var isError: Bool?
+        
+        let expectation = self.expectation(description: "GetMoviesAPI")
+        
+        Movie.getMovies(withPage: 1) { (movie, error, errorString) in
+            movieList = movie
+            isError = error
+            expectation.fulfill()
         }
+        
+        wait(for: [expectation], timeout: 5.0)
+        XCTAssert(movieList?.results?.count != 0 && isError == false)
+    }
+    
+    func testGetSynopsisEndpoint() {
+
+        var synopsisData : Synopsis?
+        var isError: Bool?
+
+        let expectation = self.expectation(description: "GetSynopsisAPI")
+
+        Synopsis.getSynopsis(withId: 299537) { (synopsis, error, errorString) in
+            synopsisData = synopsis
+            isError = error
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 5.0)
+        XCTAssert(synopsisData?.synopsis != "" && isError == false)
+    }
+    
+    func testGetReviewsEndpoint() {
+        
+        var reviewList : Review?
+        var isError: Bool?
+        
+        let expectation = self.expectation(description: "GetReviewsAPI")
+        
+        Review.getReviews(withPage: 1, withId: 299537) { (review, error, errorString) in
+            reviewList = review
+            isError = error
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 5.0)
+        XCTAssert(reviewList?.results?.count != 0 && isError == false)
+    }
+    
+    func testGetCreditsEndpoint() {
+        
+        var creditList : Credit?
+        var isError: Bool?
+        
+        let expectation = self.expectation(description: "GetCreditsAPI")
+        
+        Credit.getCredits(withId: 299537) { (credit, error, errorString) in
+            creditList = credit
+            isError = error
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 5.0)
+        XCTAssert(creditList?.results?.count != 0 && isError == false)
+    }
+    
+    func testGetSimilarMoviesEndpoint() {
+        
+        var similarMoviesList : SimilarMovie?
+        var isError: Bool?
+        
+        let expectation = self.expectation(description: "GetSimilarMoviesAPI")
+        
+        SimilarMovie.getSimilarMovies(withPage: 1, withId: 299537) { (similarMovie, error, errorString) in
+            similarMoviesList = similarMovie
+            isError = error
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 5.0)
+        XCTAssert(similarMoviesList?.results?.count != 0 && isError == false)
     }
 
 }
