@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MoviesListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MoviesListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MovieCellDelegate {
     
     
     //MARK:- Properties & Variables
@@ -19,6 +19,18 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         view.backgroundColor = .clear
         view.delegate = self
         view.dataSource = self
+        return view
+    }()
+    
+    let backgroundTint: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.init(white: 0, alpha: 0.7)
+        return view
+    }()
+    
+    let bookedView: BookedView = {
+        let view = BookedView()
+        view.backgroundColor = .white
         return view
     }()
     
@@ -106,6 +118,48 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     
+    //MARK: - Movie Cell Delegate Method
+    
+    func didTapBook() {
+        
+        backgroundTint.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        view.addSubview(backgroundTint)
+        
+        bookedView.frame = CGRect(x: backgroundTint.frame.width/2 - 125, y: -300, width: 250, height: 250)
+        backgroundTint.addSubview(bookedView)
+        bookedView.setupViews()
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            self.bookedView.frame.origin.y = self.backgroundTint.frame.height/2 - 125
+        }) { (complete) in
+            if complete {
+                UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: {
+                    self.bookedView.tickImageView.alpha = 1
+                }, completion: { (complete) in
+                    if complete {
+                        UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: {
+                            self.bookedView.messageLabel.alpha = 1
+                        }, completion: { (complete) in
+                            UIView.animate(withDuration: 0.2, delay: 1, options: .curveEaseInOut, animations: {
+                                self.bookedView.frame.origin.y = self.backgroundTint.frame.height + 100
+                            }, completion: { (complete) in
+                                if complete {
+                                    self.bookedView.tickImageView.alpha = 0
+                                    self.bookedView.messageLabel.alpha = 0
+                                    self.bookedView.tickImageView.removeFromSuperview()
+                                    self.bookedView.messageLabel.removeFromSuperview()
+                                    self.bookedView.removeFromSuperview()
+                                    self.backgroundTint.removeFromSuperview()
+                                }
+                            })
+                        })
+                    }
+                })
+            }
+        }
+    }
+    
+    
     //MARK: - Table View Delegate Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -131,6 +185,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieCell
         
+        cell.delegate = self
         cell.setupViews()
         cell.selectionStyle = .none
         

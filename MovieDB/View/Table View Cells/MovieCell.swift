@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol MovieCellDelegate {
+    
+    func didTapBook()
+}
+
 class MovieCell: UITableViewCell {
     
     let posterImageView: UIImageView = {
@@ -49,6 +54,8 @@ class MovieCell: UITableViewCell {
         button.backgroundColor = UIColor(red: 51/255, green: 53/255, blue: 68/255, alpha: 1.0)
         return button
     }()
+    
+    var delegate: MovieCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -81,10 +88,18 @@ class MovieCell: UITableViewCell {
         releaseDateLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true
         
         addSubview(bookButton)
+        bookButton.addTarget(self, action: #selector(bookButtonTapped), for: .touchUpInside)
         bookButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
         bookButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
         bookButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         bookButton.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -5).isActive = true
+    }
+    
+    @objc func bookButtonTapped() {
+        
+        if let localDelegate = delegate {
+            localDelegate.didTapBook()
+        }
     }
     
 }
