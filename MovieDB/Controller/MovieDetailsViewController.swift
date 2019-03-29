@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieDetailsViewController: UITableViewController {
+class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate {
     
     
     //MARK: - Properties & Variables
@@ -126,6 +126,13 @@ class MovieDetailsViewController: UITableViewController {
     }
     
     
+    //MARK: - Movie Cover Cell Delegate Method
+    
+    func didTapDismiss() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     //MARK: - Table View Delegate Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -172,6 +179,7 @@ class MovieDetailsViewController: UITableViewController {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_COVER_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieCoverCell
             
+            cell.delegate = self
             cell.setupViews()
             
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
