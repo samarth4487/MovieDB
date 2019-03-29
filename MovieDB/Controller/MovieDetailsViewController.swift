@@ -139,10 +139,28 @@ class MovieDetailsViewController: UITableViewController {
         case 0:
             return view.frame.width * 1.3
             
-        case 1...3:
+        case 1:
+            if movieSynopsis == "" {
+                return 0
+            }
+            return UITableView.automaticDimension
+            
+        case 2:
+            if movieReviews.count == 0 {
+                return 0
+            }
+            return UITableView.automaticDimension
+            
+        case 3:
+            if movieCredits.count == 0 {
+                return 0
+            }
             return UITableView.automaticDimension
             
         default:
+            if similarMovies.count == 0 {
+                return 0
+            }
             return UITableView.automaticDimension
         }
     }

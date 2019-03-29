@@ -207,7 +207,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         })
         cell.releaseDateLabel.text = "Released On " + Movie.modifyDateString(withString: movie.releaseDate)
         
-        if indexPath.row == movies.count - 1 {
+        if indexPath.row == movies.count - 3 {
             loadMoreData()
         }
         
