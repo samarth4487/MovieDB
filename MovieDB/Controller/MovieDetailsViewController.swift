@@ -10,6 +10,9 @@ import UIKit
 
 class MovieDetailsViewController: UITableViewController {
     
+    
+    //MARK: - Properties & Variables
+    
     var moviePosterPath = ""
     var movieId = -1
     var movieSynopsis = ""
@@ -19,6 +22,9 @@ class MovieDetailsViewController: UITableViewController {
     
     let progressView = ProgressBar(text: "Loading....")
     
+    
+    //MARK: - View Controller Life Cycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,11 +33,11 @@ class MovieDetailsViewController: UITableViewController {
         tableView.allowsSelection = false
         tableView.bounces = false
         registerCells()
-        downloadSynopsisForMovie()
-        downloadReviewsForMovie()
-        downloadCreditsForMovie()
-        downloadSimilarMoviesForMovie()
+        downloadData()
     }
+    
+    
+    //MARK: - Status bar related methods
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -41,6 +47,9 @@ class MovieDetailsViewController: UITableViewController {
         return .slide
     }
     
+    
+    //MARK: - Method to register table view cells
+    
     func registerCells() {
         
         tableView.register(MovieCoverCell.self, forCellReuseIdentifier: GlobalConstants.MOVIE_COVER_CELL_REUSE_IDENTIFIER)
@@ -48,6 +57,17 @@ class MovieDetailsViewController: UITableViewController {
         tableView.register(MovieReviewCell.self, forCellReuseIdentifier: GlobalConstants.MOVIE_REVIEW_CELL_REUSE_IDENTIFIER)
         tableView.register(MovieCreditCell.self, forCellReuseIdentifier: GlobalConstants.MOVIE_CREDIT_CELL_REUSE_IDENTIFIER)
         tableView.register(SimilarMovieCell.self, forCellReuseIdentifier: GlobalConstants.SIMILAR_MOVIE_CELL_REUSE_IDENTIFIER)
+    }
+    
+    
+    //MARK: - Methods to download data related to movie
+    
+    func downloadData() {
+        
+        downloadSynopsisForMovie()
+        downloadReviewsForMovie()
+        downloadCreditsForMovie()
+        downloadSimilarMoviesForMovie()
     }
     
     func downloadSynopsisForMovie() {
@@ -104,6 +124,9 @@ class MovieDetailsViewController: UITableViewController {
             }
         }
     }
+    
+    
+    //MARK: - Table View Delegate Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5

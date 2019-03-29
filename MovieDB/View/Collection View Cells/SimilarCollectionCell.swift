@@ -10,6 +10,9 @@ import UIKit
 
 class SimilarCollectionCell: UICollectionViewCell {
     
+    
+    //MARK: - Properties & Variables
+    
     let movieImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +41,9 @@ class SimilarCollectionCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    //MARK: - Custom Methods
     
     func setupViews() {
         

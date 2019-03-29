@@ -10,6 +10,9 @@ import UIKit
 
 class ReviewCollectionCell: UICollectionViewCell {
     
+    
+    //MARK: - Properties & Variables
+    
     let authorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +42,9 @@ class ReviewCollectionCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    //MARK: - Custom Methods
     
     func setupViews() {
         

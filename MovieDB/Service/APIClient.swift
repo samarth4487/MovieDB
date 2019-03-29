@@ -12,6 +12,10 @@ import Alamofire
 class APIClient {
     
     static func makeRequest<T: Decodable>(withURL url: URL, _ callback: @escaping (T?, Bool, String) -> Void) {
+        /*
+         Generic method to fetch data from the server.
+         It inputs an endpoint URL and returns data(optional), error and errorMessage.
+        */
         
         Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil).response{
             (response) in
@@ -49,7 +53,11 @@ class APIClient {
     }
     
     static func downloadImage(_ url: String, original: Bool, andCallback callback: @escaping (UIImage) -> Void) {
-        
+        /*
+         Method to download Image from server.
+         It accepts a image URL and returns the image after it has been downloaded.
+         It'll not download the image if it is present in the local cache.
+        */
         if let cachedImage = _IMAGE_CACHE.object(forKey: url as NSString) {
             callback(cachedImage)
         } else {

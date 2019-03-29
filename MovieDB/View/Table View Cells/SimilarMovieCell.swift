@@ -10,6 +10,9 @@ import UIKit
 
 class SimilarMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
+    
+    //MARK: - Properties & Variables
+    
     var movieDetails = [SimilarMovieDetails]()
     
     let headingLabel: UILabel = {
@@ -43,6 +46,9 @@ class SimilarMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    //MARK: - Custom Methods
+    
     func setupViews() {
         
         addSubview(headingLabel)
@@ -64,6 +70,9 @@ class SimilarMovieCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         
         moviesCollectionView.register(SimilarCollectionCell.self, forCellWithReuseIdentifier: GlobalConstants.SIMILAR_MOVIE_COLLECTION_CELL_REUSE_IDENTIFIER)
     }
+    
+    
+    //MARK: - Collection View Delegate Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movieDetails.count

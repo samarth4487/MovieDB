@@ -10,6 +10,9 @@ import UIKit
 
 class MovieSynopsisCell: UITableViewCell {
     
+    
+    //MARK: - Properties & Variables
+    
     let synopsisLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -27,6 +30,9 @@ class MovieSynopsisCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    //MARK: - Custom Methods
     
     func setupViews() {
         

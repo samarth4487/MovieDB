@@ -10,6 +10,9 @@ import UIKit
 
 class MovieReviewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    
+    //MARK: - Properties & Variables
+    
     var reviewDetails = [ReviewsDetails]()
     
     let headingLabel: UILabel = {
@@ -43,6 +46,9 @@ class MovieReviewCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    //MARK: - Custom Methods
+    
     func setupViews() {
         
         addSubview(headingLabel)
@@ -64,6 +70,9 @@ class MovieReviewCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         
         reviewCollectionView.register(ReviewCollectionCell.self, forCellWithReuseIdentifier: GlobalConstants.REVIEW_COLLECTION_CELL_REUSE_IDENTIFIER)
     }
+    
+    
+    //MARK: - Collection View Delegate Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return reviewDetails.count

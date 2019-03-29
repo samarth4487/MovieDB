@@ -15,6 +15,9 @@ protocol MovieCellDelegate {
 
 class MovieCell: UITableViewCell {
     
+    
+    //MARK: - Properties & Variables
+    
     let posterImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -65,6 +68,9 @@ class MovieCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    //MARK: - Custom Methods
     
     func setupViews() {
         

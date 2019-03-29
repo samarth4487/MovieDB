@@ -10,6 +10,14 @@ import UIKit
 
 class ProgressBar: UIVisualEffectView {
     
+    
+    /*
+     This shows and hide progress bar in any view
+    */
+    
+    
+    //MARK: - Properties & Variables
+    
     var text: String? {
         didSet {
             label.text = text
@@ -35,13 +43,6 @@ class ProgressBar: UIVisualEffectView {
         self.setup()
     }
     
-    func setup() {
-        contentView.addSubview(vibrancyView)
-        contentView.addSubview(activityIndictor)
-        contentView.addSubview(label)
-        activityIndictor.startAnimating()
-    }
-    
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
@@ -63,6 +64,16 @@ class ProgressBar: UIVisualEffectView {
             label.textColor = UIColor.white
             label.font = UIFont.boldSystemFont(ofSize: 16)
         }
+    }
+    
+    
+    //MARK: - Custom Methods
+    
+    func setup() {
+        contentView.addSubview(vibrancyView)
+        contentView.addSubview(activityIndictor)
+        contentView.addSubview(label)
+        activityIndictor.startAnimating()
     }
     
     func show() {

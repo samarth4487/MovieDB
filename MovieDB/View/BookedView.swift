@@ -9,6 +9,9 @@
 import UIKit
 
 class BookedView: UIView {
+    
+    
+    //MARK: - Properties & Variables
 
     let tickImageView: UIImageView = {
         let view = UIImageView()
@@ -37,6 +40,9 @@ class BookedView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    //MARK: - Custom Methods
     
     func setupViews() {
         

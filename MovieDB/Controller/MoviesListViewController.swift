@@ -121,6 +121,9 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     //MARK: - Movie Cell Delegate Method
     
     func didTapBook() {
+        /*
+         This method handle tap on book button and displays a custom modal view
+        */
         
         backgroundTint.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         view.addSubview(backgroundTint)
@@ -129,6 +132,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         backgroundTint.addSubview(bookedView)
         bookedView.setupViews()
         
+        // Handle show and hide animations for background tint & custom modal
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             self.bookedView.frame.origin.y = self.backgroundTint.frame.height/2 - 125
         }) { (complete) in

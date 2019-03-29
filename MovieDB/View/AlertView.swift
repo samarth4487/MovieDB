@@ -12,6 +12,9 @@ import UIKit
 class AlertView: NSObject {
     
     static func showAlert(inVC vc: UIViewController, withMessage message: String) {
+        /*
+         This method shows an alert in the view controller from where it was called
+        */
         
         let alert = UIAlertController(title: "Uh-oh!", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Okay", style: .default, handler: nil)

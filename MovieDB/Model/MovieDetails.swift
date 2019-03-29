@@ -23,6 +23,9 @@ struct Synopsis: Decodable {
     }
     
     static func getSynopsis(withId id: Int, callback: @escaping (Synopsis?, Bool, String) -> Void) {
+        /*
+         It'll call the generic method in APIClient to download the required data
+         */
         
         let url = URL(string: GlobalConstants.BASE_URL + "/\(id)?api_key=\(GlobalConstants.API_KEY)&language=en-US")
         APIClient.makeRequest(withURL: url!) { (synopsis: Synopsis?, error: Bool, errorMessage: String)  in
@@ -54,6 +57,9 @@ struct Review: Decodable {
     }
     
     static func getReviews(withPage page:Int, withId id: Int, callback: @escaping (Review?, Bool, String) -> Void) {
+        /*
+         It'll call the generic method in APIClient to download the required data
+         */
         
         let url = URL(string: GlobalConstants.BASE_URL + "/\(id)/reviews?api_key=\(GlobalConstants.API_KEY)&page=\(page)&language=en-US")
         APIClient.makeRequest(withURL: url!) { (review: Review?, error: Bool, errorMessage: String)  in
@@ -97,6 +103,9 @@ struct Credit: Decodable {
     }
     
     static func getCredits(withId id: Int, callback: @escaping (Credit?, Bool, String) -> Void) {
+        /*
+         It'll call the generic method in APIClient to download the required data
+         */
         
         let url = URL(string: GlobalConstants.BASE_URL + "/\(id)/credits?api_key=\(GlobalConstants.API_KEY)&language=en-US")
         APIClient.makeRequest(withURL: url!) { (credit: Credit?, error: Bool, errorMessage: String)  in
@@ -144,6 +153,9 @@ struct SimilarMovie: Decodable {
     }
     
     static func getSimilarMovies(withPage page: Int, withId id: Int, callback: @escaping (SimilarMovie?, Bool, String) -> Void) {
+        /*
+         It'll call the generic method in APIClient to download the required data
+         */
         
         let url = URL(string: GlobalConstants.BASE_URL + "/\(id)/similar?api_key=\(GlobalConstants.API_KEY)&page=\(page)&language=en-US")
         APIClient.makeRequest(withURL: url!) { (similarMovie: SimilarMovie?, error: Bool, errorMessage: String)  in

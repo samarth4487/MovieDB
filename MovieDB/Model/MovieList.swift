@@ -28,6 +28,9 @@ struct Movie: Decodable {
     }
     
     static func getMovies(withPage page: Int, _ callback: @escaping (Movie?, Bool, String) -> Void) {
+        /*
+         It'll call the generic method in APIClient to download the required data
+        */
         
         let url = URL(string: GlobalConstants.BASE_URL + "/now_playing?api_key=\(GlobalConstants.API_KEY)&page=\(page)&language=en-US")
         APIClient.makeRequest(withURL: url!) { (movie: Movie?, error: Bool, errorMessage: String)  in
@@ -41,6 +44,9 @@ struct Movie: Decodable {
     }
     
     static func modifyDateString(withString dateString: String) -> String {
+        /*
+         Converts 2019-03-29 to March 29, 2019.
+        */
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
