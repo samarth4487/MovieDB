@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol MovieReviewCellDelegate {
+    
+    func loadMoreReviews()
+}
+
 class MovieReviewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     
@@ -36,6 +41,8 @@ class MovieReviewCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         view.backgroundColor = UIColor(red: 51/255, green: 53/255, blue: 68/255, alpha: 1.0)
         return view
     }()
+    
+    var delegate: MovieReviewCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -91,6 +98,12 @@ class MovieReviewCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         let review = reviewDetails[indexPath.item]
         cell.authorLabel.text = review.author
         cell.reviewLabel.text = review.content
+        
+        if indexPath.item == reviewDetails.count - 1 {
+            if let localDelegate = delegate {
+                localDelegate.loadMoreReviews()
+            }
+        }
         
         return cell
     }

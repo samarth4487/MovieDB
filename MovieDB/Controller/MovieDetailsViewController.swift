@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate {
+class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate, MovieReviewCellDelegate, SimilarMovieCellDelegate {
     
     
     //MARK: - Properties & Variables
@@ -17,8 +17,12 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
     var movieId = -1
     var movieSynopsis = ""
     var movieReviews = [ReviewsDetails]()
+    var movieReviewsPageNumber = 1
+    var movieReviewsTotalPages = 1
     var movieCredits = [CreditDetails]()
     var similarMovies = [SimilarMovieDetails]()
+    var similarMoviesPageNumber = 1
+    var similarMoviesTotalPages = 1
     
     let progressView = ProgressBar(text: "Loading....")
     
@@ -85,7 +89,9 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
     
     func downloadReviewsForMovie() {
         
-        Review.getReviews(withPage: 1, withId: movieId) { (review, error, errorString) in
+        movieReviewsPageNumber = 1
+        
+        Review.getReviews(withPage: movieReviewsPageNumber, withId: movieId) { (review, error, errorString) in
             if !error {
                 guard let review = review else { return }
                 guard let results = review.results else { return }
@@ -113,7 +119,9 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
     
     func downloadSimilarMoviesForMovie() {
         
-        SimilarMovie.getSimilarMovies(withPage: 1, withId: movieId) { (similarMovie, error, errorString) in
+        similarMoviesPageNumber = 1
+        
+        SimilarMovie.getSimilarMovies(withPage: similarMoviesPageNumber, withId: movieId) { (similarMovie, error, errorString) in
             if !error {
                 guard let similarMovie = similarMovie else { return }
                 guard let results = similarMovie.results else { return }
@@ -130,6 +138,54 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
     
     func didTapDismiss() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    
+    //MARK: - Movie Review Cell Delegate Method
+    
+    func loadMoreReviews() {
+        
+        movieReviewsPageNumber += 1
+        
+        if movieReviewsPageNumber <= movieReviewsTotalPages {
+            
+            Review.getReviews(withPage: 1, withId: movieId) { (review, error, errorString) in
+                if !error {
+                    guard let review = review else { return }
+                    guard let results = review.results else { return }
+                    self.movieReviews.append(contentsOf: results)
+                    guard let cell = self.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? MovieReviewCell else { return }
+                    cell.reviewDetails = self.movieReviews
+                    cell.reviewCollectionView.reloadData()
+                } else {
+                    AlertView.showAlert(inVC: self, withMessage: errorString)
+                }
+            }
+        }
+    }
+    
+    
+    //MARK: - Similar Movie Cell Delegate Method
+    
+    func loadMoreSimilarMovies() {
+        
+        similarMoviesPageNumber += 1
+        
+        if similarMoviesPageNumber <= similarMoviesTotalPages {
+            
+            SimilarMovie.getSimilarMovies(withPage: similarMoviesPageNumber, withId: movieId) { (similarMovie, error, errorString) in
+                if !error {
+                    guard let similarMovie = similarMovie else { return }
+                    guard let results = similarMovie.results else { return }
+                    self.similarMovies.append(contentsOf: results)
+                    guard let cell = self.tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? SimilarMovieCell else { return }
+                    cell.movieDetails = self.similarMovies
+                    cell.moviesCollectionView.reloadData()
+                } else {
+                    AlertView.showAlert(inVC: self, withMessage: errorString)
+                }
+            }
+        }
     }
     
     
@@ -212,6 +268,7 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
             
             if movieReviews.count > 0 {
                 cell.reviewDetails = movieReviews
+                cell.delegate = self
                 cell.setupViews()
             }
             
@@ -232,6 +289,7 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
             
             if similarMovies.count > 0 {
                 cell.movieDetails = similarMovies
+                cell.delegate = self
                 cell.setupViews()
             }
             
