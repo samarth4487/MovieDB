@@ -258,8 +258,10 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_SYNOPSIS_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieSynopsisCell
             
-            cell.setupViews()
-            cell.synopsisLabel.text = movieSynopsis
+            if movieSynopsis != "" {
+                cell.setupViews()
+                cell.synopsisLabel.text = movieSynopsis
+            }
             
             return cell
             
