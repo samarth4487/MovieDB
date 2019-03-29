@@ -37,6 +37,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     let progressView = ProgressBar(text: "Loading....")
     
     var movies = [Result]()
+    var totalPages = 1
     var pageNumber = 1
     
     
@@ -67,6 +68,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
                 guard let movie = movie else { return }
                 guard let results = movie.results else { return }
                 self.movies = results
+                self.totalPages = movie.totalPages
                 self.setupViews()
             } else {
                 AlertView.showAlert(inVC: self, withMessage: errorMessage)
@@ -95,16 +97,18 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         
         pageNumber += 1
         
-        Movie.getMovies(withPage: pageNumber) {
-            (movie, error, errorMessage) in
-            
-            if !error {
-                guard let movie = movie else { return }
-                guard let results = movie.results else { return }
-                self.movies.append(contentsOf: results)
-                self.moviesTableView.reloadData()
-            } else {
-                AlertView.showAlert(inVC: self, withMessage: errorMessage)
+        if pageNumber <= totalPages {
+            Movie.getMovies(withPage: pageNumber) {
+                (movie, error, errorMessage) in
+                
+                if !error {
+                    guard let movie = movie else { return }
+                    guard let results = movie.results else { return }
+                    self.movies.append(contentsOf: results)
+                    self.moviesTableView.reloadData()
+                } else {
+                    AlertView.showAlert(inVC: self, withMessage: errorMessage)
+                }
             }
         }
     }
