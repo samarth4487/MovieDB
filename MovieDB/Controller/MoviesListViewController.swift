@@ -59,6 +59,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     }()
     
     let progressView = ProgressBar(text: "Loading....")
+    var searchViewHeightAnchor: NSLayoutConstraint?
     
     var movies = [Result]()
     var filteredMovies = [Result]()
@@ -111,7 +112,8 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        searchView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        searchViewHeightAnchor = searchView.heightAnchor.constraint(equalToConstant: 60)
+        searchViewHeightAnchor?.isActive = true
         
         view.addSubview(searchViewBorder)
         searchViewBorder.leadingAnchor.constraint(equalTo: searchView.leadingAnchor).isActive = true
@@ -130,6 +132,10 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         moviesTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         moviesTableView.topAnchor.constraint(equalTo: searchView.bottomAnchor).isActive = true
         moviesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        let tableViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(tableViewTapped))
+        tableViewTapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tableViewTapGesture)
         
         registerCells()
     }
@@ -166,6 +172,15 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     
+    //MARK: - Gesture Delegate Methods
+    
+    @objc func tableViewTapped() {
+        
+        isSearching = false
+        searchTextField.resignFirstResponder()
+    }
+    
+    
     //MARK: - Text Field Delegate Methods
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -181,7 +196,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         isSearching = false
-        view.endEditing(true)
+        searchTextField.resignFirstResponder()
         
         return true
     }
@@ -197,12 +212,13 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
             filteredMovies = movies
         }
         
-        if filteredMovies.count != 0{
+        moviesTableView.reloadData()
+        
+        if filteredMovies.count != 0 {
+            
             let indexPath = IndexPath(row: 0, section: 0)
             self.moviesTableView.scrollToRow(at: indexPath, at: .top, animated: true)
         }
-        
-        moviesTableView.reloadData()
     }
     
     
@@ -248,6 +264,37 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
                     }
                 })
             }
+        }
+    }
+    
+    
+    //MARK: - Scroll View Delegate Methods
+    
+    var previousContentOffSetY: CGFloat = 0
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        print(scrollView.contentOffset.y)
+        
+        let presentContentOffsetY = scrollView.contentOffset.y
+        
+        if presentContentOffsetY >= 0 {
+            if presentContentOffsetY > previousContentOffSetY {
+                UIView.animate(withDuration: 0.3) {
+                    self.searchViewHeightAnchor?.isActive = false
+                    self.searchViewHeightAnchor?.constant = 0
+                    self.searchViewHeightAnchor?.isActive = true
+                    self.view.layoutIfNeeded()
+                }
+            } else if presentContentOffsetY < previousContentOffSetY {
+                UIView.animate(withDuration: 0.3) {
+                    self.searchViewHeightAnchor?.isActive = false
+                    self.searchViewHeightAnchor?.constant = 60
+                    self.searchViewHeightAnchor?.isActive = true
+                    self.view.layoutIfNeeded()
+                }
+            }
+            previousContentOffSetY = presentContentOffsetY
         }
     }
     
