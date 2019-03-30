@@ -8,10 +8,28 @@
 
 import UIKit
 
-class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate, MovieReviewCellDelegate, SimilarMovieCellDelegate {
+class MovieDetailsViewController: UITableViewController, MovieReviewCellDelegate, SimilarMovieCellDelegate {
     
     
     //MARK: - Properties & Variables
+    
+    let dismissButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 20
+        return button
+    }()
+    
+    var safeAreaTop: CGFloat {
+        if let window = UIApplication.shared.keyWindow {
+            return window.safeAreaInsets.top
+        } else {
+            return 0
+        }
+    }
     
     var moviePosterPath = ""
     var movieId = -1
@@ -36,6 +54,15 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
         tableView.backgroundColor = UIColor(red: 51/255, green: 53/255, blue: 68/255, alpha: 1.0)
         tableView.allowsSelection = false
         tableView.bounces = false
+        
+        dismissButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
+        view.addSubview(dismissButton)
+        view.bringSubviewToFront(dismissButton)
+        dismissButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: safeAreaTop == 20 ? 20 : -20).isActive = true
+        dismissButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
+        dismissButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        dismissButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
         registerCells()
         downloadData()
     }
@@ -96,6 +123,7 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
                 guard let review = review else { return }
                 guard let results = review.results else { return }
                 self.movieReviews = results
+                self.movieReviewsTotalPages = review.totalPages
                 self.tableView.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .none)
             } else {
                 AlertView.showAlert(inVC: self, withMessage: errorString)
@@ -126,6 +154,7 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
                 guard let similarMovie = similarMovie else { return }
                 guard let results = similarMovie.results else { return }
                 self.similarMovies = results
+                self.similarMoviesTotalPages = similarMovie.totalPages
                 self.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .none)
             } else {
                 AlertView.showAlert(inVC: self, withMessage: errorString)
@@ -136,7 +165,7 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
     
     //MARK: - Movie Cover Cell Delegate Method
     
-    func didTapDismiss() {
+    @objc func dismissTapped() {
         dismiss(animated: true, completion: nil)
     }
     
@@ -235,7 +264,6 @@ class MovieDetailsViewController: UITableViewController, MoviewCoverCellDelegate
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: GlobalConstants.MOVIE_COVER_CELL_REUSE_IDENTIFIER, for: indexPath) as! MovieCoverCell
             
-            cell.delegate = self
             cell.setupViews()
             
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

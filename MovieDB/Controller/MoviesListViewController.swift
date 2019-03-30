@@ -8,10 +8,34 @@
 
 import UIKit
 
-class MoviesListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MovieCellDelegate {
+class MoviesListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MovieCellDelegate, UITextFieldDelegate {
     
     
     //MARK:- Properties & Variables
+    
+    let searchView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    let searchViewBorder: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(red: 238/255, green: 238/255, blue: 238/255, alpha: 1)
+        return view
+    }()
+    
+    lazy var searchTextField: UITextField = {
+        let field = UITextField()
+        field.delegate = self
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.placeholder = "Search Movies"
+        field.borderStyle = .roundedRect
+        field.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        return field
+    }()
     
     lazy var moviesTableView: UITableView = {
         let view = UITableView()
@@ -37,8 +61,10 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     let progressView = ProgressBar(text: "Loading....")
     
     var movies = [Result]()
+    var filteredMovies = [Result]()
     var totalPages = 1
     var pageNumber = 1
+    var isSearching = false
     
     
     //MARK:- View Controller Life Cycle Methods
@@ -81,10 +107,28 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
          This method sets up all the UI elements for the View Controller.
         */
         
+        view.addSubview(searchView)
+        searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        searchView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        view.addSubview(searchViewBorder)
+        searchViewBorder.leadingAnchor.constraint(equalTo: searchView.leadingAnchor).isActive = true
+        searchViewBorder.trailingAnchor.constraint(equalTo: searchView.trailingAnchor).isActive = true
+        searchViewBorder.topAnchor.constraint(equalTo: searchView.bottomAnchor, constant: -1).isActive = true
+        searchViewBorder.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        searchView.addSubview(searchTextField)
+        searchTextField.leadingAnchor.constraint(equalTo: searchView.leadingAnchor, constant: 20).isActive = true
+        searchTextField.trailingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: -20).isActive = true
+        searchTextField.topAnchor.constraint(equalTo: searchView.topAnchor, constant: 10).isActive = true
+        searchTextField.bottomAnchor.constraint(equalTo: searchView.bottomAnchor, constant: -20).isActive = true
+        
         view.addSubview(moviesTableView)
         moviesTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         moviesTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        moviesTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        moviesTableView.topAnchor.constraint(equalTo: searchView.bottomAnchor).isActive = true
         moviesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         registerCells()
@@ -119,6 +163,46 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         */
         
         moviesTableView.register(MovieCell.self, forCellReuseIdentifier: GlobalConstants.MOVIE_CELL_REUSE_IDENTIFIER)
+    }
+    
+    
+    //MARK: - Text Field Delegate Methods
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        isSearching = true
+        filteredMovies = movies
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        isSearching = false
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        isSearching = false
+        view.endEditing(true)
+        
+        return true
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        
+        if textField.text != "" {
+            isSearching = true
+            filteredMovies = movies.filter({( movie : Result) -> Bool in
+                return movie.title.lowercased().contains(textField.text!.lowercased())
+            })
+        } else {
+            filteredMovies = movies
+        }
+        
+        if filteredMovies.count != 0{
+            let indexPath = IndexPath(row: 0, section: 0)
+            self.moviesTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        }
+        
+        moviesTableView.reloadData()
     }
     
     
@@ -171,7 +255,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     //MARK: - Table View Delegate Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        return isSearching ? filteredMovies.count : movies.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -180,7 +264,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let movie = movies[indexPath.row]
+        let movie = isSearching ? filteredMovies[indexPath.row] : movies[indexPath.row]
 
         let movieDetailsVC = MovieDetailsViewController()
         movieDetailsVC.moviePosterPath = movie.posterPath
@@ -197,7 +281,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.setupViews()
         cell.selectionStyle = .none
         
-        let movie = movies[indexPath.row]
+        let movie = isSearching ? filteredMovies[indexPath.row] : movies[indexPath.row]
         
         cell.titleLabel.text = movie.title
         cell.posterImageView.image = #imageLiteral(resourceName: "thumbnail")
@@ -211,7 +295,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         })
         cell.releaseDateLabel.text = "Released On " + Movie.modifyDateString(withString: movie.releaseDate)
         
-        if indexPath.row == movies.count - 3 {
+        if indexPath.row == movies.count - 3 && !isSearching {
             loadMoreData()
         }
         

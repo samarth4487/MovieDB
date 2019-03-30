@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol MoviewCoverCellDelegate {
-    
-    func didTapDismiss()
-}
-
 class MovieCoverCell: UITableViewCell {
     
     
@@ -24,18 +19,6 @@ class MovieCoverCell: UITableViewCell {
         view.contentMode = .scaleToFill
         return view
     }()
-    
-    let dismissButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 20
-        return button
-    }()
-    
-    var delegate: MoviewCoverCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -56,20 +39,6 @@ class MovieCoverCell: UITableViewCell {
         posterImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         posterImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         posterImageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        
-        addSubview(dismissButton)
-        dismissButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
-        dismissButton.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
-        dismissButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
-        dismissButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        dismissButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    @objc func dismissTapped() {
-        
-        if let localDelagate = delegate {
-            localDelagate.didTapDismiss()
-        }
     }
 
 }
