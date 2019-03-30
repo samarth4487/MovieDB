@@ -176,7 +176,6 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @objc func tableViewTapped() {
         
-        isSearching = false
         searchTextField.resignFirstResponder()
     }
     
@@ -186,18 +185,24 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         isSearching = true
-        filteredMovies = movies
+        if filteredMovies.count == 0 {
+            filteredMovies = movies
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        isSearching = false
+        
+        if let text = searchTextField.text {
+            if text == "" {
+                isSearching = false
+                filteredMovies.removeAll()
+            }
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        isSearching = false
         searchTextField.resignFirstResponder()
-        
         return true
     }
     
@@ -264,37 +269,6 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
                     }
                 })
             }
-        }
-    }
-    
-    
-    //MARK: - Scroll View Delegate Methods
-    
-    var previousContentOffSetY: CGFloat = 0
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        print(scrollView.contentOffset.y)
-        
-        let presentContentOffsetY = scrollView.contentOffset.y
-        
-        if presentContentOffsetY >= 0 {
-            if presentContentOffsetY > previousContentOffSetY {
-                UIView.animate(withDuration: 0.3) {
-                    self.searchViewHeightAnchor?.isActive = false
-                    self.searchViewHeightAnchor?.constant = 0
-                    self.searchViewHeightAnchor?.isActive = true
-                    self.view.layoutIfNeeded()
-                }
-            } else if presentContentOffsetY < previousContentOffSetY {
-                UIView.animate(withDuration: 0.3) {
-                    self.searchViewHeightAnchor?.isActive = false
-                    self.searchViewHeightAnchor?.constant = 60
-                    self.searchViewHeightAnchor?.isActive = true
-                    self.view.layoutIfNeeded()
-                }
-            }
-            previousContentOffSetY = presentContentOffsetY
         }
     }
     
