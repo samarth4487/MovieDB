@@ -193,7 +193,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if let text = searchTextField.text {
-            if text == "" {
+            if text.trim() == "" {
                 isSearching = false
                 filteredMovies.removeAll()
             }
@@ -208,12 +208,9 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         
-        if textField.text != "" {
+        if textField.text?.trim() != "" {
             isSearching = true
-//            filteredMovies = movies.filter({( movie : Result) -> Bool in
-//                return movie.title.lowercased().contains(textField.text!.lowercased())
-//            })
-            filteredMovies = searchMovies(forText: textField.text!)
+            filteredMovies = searchMovies(forText: textField.text!.trim(), inMovies: movies)
         } else {
             filteredMovies = movies
         }
@@ -230,7 +227,7 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
     
     //MARK: - Search Algorithm
     
-    func searchMovies(forText text: String) -> [Result] {
+    func searchMovies(forText text: String, inMovies movies: [Result]) -> [Result] {
         
         var filteredMovies = [Result]()
         let textToSearch = text

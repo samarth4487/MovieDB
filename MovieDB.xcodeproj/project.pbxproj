@@ -11,6 +11,7 @@
 		1002657E224BE85D000D9B72 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1002657D224BE85D000D9B72 /* APIClient.swift */; };
 		105BC535224D3DA200D342A1 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105BC534224D3DA200D342A1 /* AlertView.swift */; };
 		105BC537224D418500D342A1 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105BC536224D418500D342A1 /* ProgressView.swift */; };
+		105CEDA62250C97E00F22CEC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CEDA52250C97E00F22CEC /* Extensions.swift */; };
 		106D2AB1224DF4E700B613B7 /* BookedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106D2AB0224DF4E700B613B7 /* BookedView.swift */; };
 		1083CDB7224CECFD00E80C68 /* ReviewCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1083CDB6224CECFD00E80C68 /* ReviewCollectionCell.swift */; };
 		1083CDB9224CED0C00E80C68 /* CreditCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1083CDB8224CED0C00E80C68 /* CreditCollectionCell.swift */; };
@@ -57,6 +58,7 @@
 		1002657D224BE85D000D9B72 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		105BC534224D3DA200D342A1 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		105BC536224D418500D342A1 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		105CEDA52250C97E00F22CEC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		106D2AB0224DF4E700B613B7 /* BookedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedView.swift; sourceTree = "<group>"; };
 		1083CDB6224CECFD00E80C68 /* ReviewCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionCell.swift; sourceTree = "<group>"; };
 		1083CDB8224CED0C00E80C68 /* CreditCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCollectionCell.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				10B4E302224B6EA400D4B103 /* GlobalConstants.swift */,
+				105CEDA52250C97E00F22CEC /* Extensions.swift */,
 			);
 			path = "Helper Files";
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				1002657E224BE85D000D9B72 /* APIClient.swift in Sources */,
 				10B4E30D224B75F900D4B103 /* MovieCreditCell.swift in Sources */,
 				106D2AB1224DF4E700B613B7 /* BookedView.swift in Sources */,
+				105CEDA62250C97E00F22CEC /* Extensions.swift in Sources */,
 				10B4E309224B757400D4B103 /* MovieSynopsisCell.swift in Sources */,
 				10B4E2FF224B629600D4B103 /* MovieDetails.swift in Sources */,
 				105BC535224D3DA200D342A1 /* AlertView.swift in Sources */,
