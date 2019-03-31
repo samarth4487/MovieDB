@@ -210,9 +210,10 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
         
         if textField.text != "" {
             isSearching = true
-            filteredMovies = movies.filter({( movie : Result) -> Bool in
-                return movie.title.lowercased().contains(textField.text!.lowercased())
-            })
+//            filteredMovies = movies.filter({( movie : Result) -> Bool in
+//                return movie.title.lowercased().contains(textField.text!.lowercased())
+//            })
+            filteredMovies = searchMovies(forText: textField.text!)
         } else {
             filteredMovies = movies
         }
@@ -224,6 +225,48 @@ class MoviesListViewController: UIViewController, UITableViewDelegate, UITableVi
             let indexPath = IndexPath(row: 0, section: 0)
             self.moviesTableView.scrollToRow(at: indexPath, at: .top, animated: true)
         }
+    }
+    
+    
+    //MARK: - Search Algorithm
+    
+    func searchMovies(forText text: String) -> [Result] {
+        
+        var filteredMovies = [Result]()
+        let textToSearch = text
+        let textToSearchArray = textToSearch.components(separatedBy: " ")
+        var textToSearchArrayRemovingLastElement = textToSearchArray
+        textToSearchArrayRemovingLastElement.removeLast()
+        let textToSearchRemovingLastElementSet = Set(textToSearchArrayRemovingLastElement.map { $0.lowercased() })
+        
+        for movie in movies {
+            
+            let movieTitleArray = movie.title.components(separatedBy: " ")
+            let movieTitleSet = Set(movieTitleArray.map { $0.lowercased() })
+            
+            for movieTitleSubString in movieTitleArray {
+                
+                if textToSearchArrayRemovingLastElement.count == 0 {
+                    if movieTitleSubString.count < textToSearch.count {
+                        continue
+                    }
+                    if movieTitleSubString.prefix(textToSearch.count).caseInsensitiveCompare(textToSearch) == .orderedSame {
+                        filteredMovies.append(movie)
+                    }
+                } else {
+                    if let lastSearchSubString = textToSearchArray.last {
+                        if movieTitleSubString.count < lastSearchSubString.count {
+                            continue
+                        }
+                        if movieTitleSubString.prefix(lastSearchSubString.count).caseInsensitiveCompare(lastSearchSubString) == .orderedSame && textToSearchRemovingLastElementSet.isSubset(of: movieTitleSet) {
+                            filteredMovies.append(movie)
+                        }
+                    }
+                }
+            }
+        }
+        
+        return filteredMovies
     }
     
     
