@@ -68,6 +68,16 @@ struct Result: Decodable {
         case title = "title", releaseDate = "release_date", posterPath = "poster_path", id = "id"
     }
     
+    init(title: String, posterPath: String = "", releaseDate: String = "", id: Int = 1) {
+        /*
+         For test cases.
+        */
+        self.title = title
+        self.posterPath = posterPath
+        self.releaseDate = releaseDate
+        self.id = id
+    }
+    
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         title = try values.decodeIfPresent(String.self, forKey: .title) ?? ""
